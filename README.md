@@ -25,3 +25,9 @@ which will give three files: `idx_a.npy`, `idx_q.npy` and `metadata.pkl`
 `python3 main.py`
 
 This allows to you to use the `infer.py`, which generates the answers
+
+
+##Next Steps 
+
+Getting Unkbot to be trained eeffectly on whole data folder, which holds 4.1 million comments!
+(I know that one of the other commits say 4.3 million commments, my bad)
