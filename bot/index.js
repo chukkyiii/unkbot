@@ -55,6 +55,7 @@ client.on('message', message => {
 			console.log("The file was saved!");
 		});
 
+		// making shell commands to run python file 
 		child = exec('cd ..; cd unk_seq2seq; python3 infer.py',
 			function (error, stdout, stderr) {
 				console.log('stdout: ' + stdout);
@@ -67,6 +68,8 @@ client.on('message', message => {
 		
 		const { promisify } = require('util');
 		const readFile = promisify(fs.readFile);
+
+		// handles the answer ready to send to discord. 
 
 		setTimeout(async() =>  {
 		try {
