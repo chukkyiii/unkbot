@@ -15,23 +15,22 @@ def respond(input):
     response=' '.join(sentence)
     return response
 
-'''while True:
-    userInput = input("Query > ")
-    for i in range(top_n):
-        print("bot# ", respond(userInput))'''
 
 q_file = open(r'/mnt/d/dev/unkbot/bot/query.json', "r")
 query = json.loads(q_file.read())
 q_file.close()
 
 query["answer"] = respond(query["question"])
-print(query["question"], query["answer"])
-
-print(query)
 
 q_file = open(r'/mnt/d/dev/unkbot/bot/query.json', 'w')
 value = json.dumps(query)
 q_file.write(value)
+
+if __name__ == '__main__':
+    while True:
+        userInput = input("Query > ")
+        for i in range(top_n):
+            print("bot# ", respond(userInput))
 
 
 
