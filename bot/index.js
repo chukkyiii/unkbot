@@ -45,7 +45,6 @@ client.on('message', message => {
 
 	// writes file to query.json
 	fs.writeFile(`query.json`, md_text, function (err) {
-		console.log('functio called')
 		if (err)
 			return console.log(err);
 		console.log("The file was saved!");
