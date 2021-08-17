@@ -26,6 +26,12 @@ which will give three files: `idx_a.npy`, `idx_q.npy` and `metadata.pkl`
 
 This allows to you to use the `infer.py`, which generates the answers
 
+### Running the bot on your server
+
+```shell
+node index.js
+```
+
 
 ## Next Steps 
 
