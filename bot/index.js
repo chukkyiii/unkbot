@@ -6,7 +6,7 @@ const { NONAME } = require('dns');
 // create a new Discord client
 const client = new Discord.Client();
 const { prefix, token } = require('./config.json');
-let exec = require('child_process').exec, child;
+
 const fs = require('graceful-fs')
 let crypto = require('crypto')
 
@@ -30,6 +30,11 @@ client.on('message', message => {
 	console.log(`${message.channel.name}: ${message.author.username} has sent: ${message.content}`);
 
 	// So that it does not talk to itself
+	if (message.author.bot == message.author.username) return; 
+
+	const sleep = (milliseconds) => {
+		return new Promise(resolve => setTimeout(resolve, milliseconds))
+	}
 
 	// Here is a object, linking answer and comment
 	// Not really a question: change it to comment.  
@@ -49,31 +54,31 @@ client.on('message', message => {
 			return console.log(err);
 		console.log("The file was saved!");
 	});
+	
+	const { exec } = require("child_process");
 
-	child = exec('cd ..; cd unk_seq2seq; python3 infer.py',
-		function (error, stdout, stderr) {
-			console.log('stdout: ' + stdout);
-			console.log('stderr: ' + stderr);
-			if (error !== null) {
-				console.log('exec error: ' + error);
-				message.channel.send('sorry it may take a moment...')
-			}
-		});
-
-	const { promisify } = require('util');
-	const readFile = promisify(fs.readFile);
-
-	setTimeout(async () => {
-		try {
-			const result = await readFile(`/mnt/d/dev/unkbot/bot/query.json`, 'utf8');
-			console.log(result);
-			let value = JSON.parse(result)
-			answer = value["answer"]
-			message.channel.send(answer);
-		} catch (e) {
-			console.error(e);
-			message.channel.send("sorry, I didn't hear you could you say that again.")
+	exec("cd ..; cd unk_seq2seq; python3 infer.py", (error, stdout, stderr) => {
+		if (error) {
+			console.log(`error: ${error.message}`);
+			return;
 		}
-	}, 20000);
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			return;
+		}
+		console.log('running command')
+		console.log(`stdout: ${stdout}`);
+	});
+
+	fs.readFile('/mnt/d/dev/unkbot/bot/query.json', 'utf-8', function (err, data){
+		if (err)
+			return console.log(err);
+		
+		console.log(`this is the result: ${data}`);
+		let value = JSON.parse(data)
+		answer = value["answer"]
+		console.log('sending message...')
+		message.channel.send(answer);
+	})
 
 });
