@@ -4,6 +4,8 @@ from main import * # import the main python file with model from the example
 import time
 import tensorlayer as tl
 import json 
+# ---------------------------------------------------------
+# you dont need to change any of this 
 
 load_weights = tl.files.load_npz(name='saved/unk-model.npz')
 tl.files.assign_weights(load_weights, model_)
@@ -14,7 +16,7 @@ def respond(input):
     sentence = inference(input, top_n)
     response=' '.join(sentence)
     return response
-
+# ------------------------------------------------------------
 
 q_file = open(r'/mnt/d/dev/unkbot/bot/query.json', "r")
 query = json.loads(q_file.read())
